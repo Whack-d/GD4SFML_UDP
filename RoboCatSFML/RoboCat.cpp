@@ -6,7 +6,7 @@ const float WORLD_WIDTH = 1280.f;
 RoboCat::RoboCat() :
 	GameObject(),
 	mMaxRotationSpeed(100.f),
-	mMaxLinearSpeed(5000.f),
+	mMaxLinearSpeed(10000.f),
 	mVelocity(Vector3::Zero),
 	mWallRestitution(0.1f),
 	mCatRestitution(0.1f),
@@ -20,15 +20,42 @@ RoboCat::RoboCat() :
 
 void RoboCat::ProcessInput(float inDeltaTime, const InputState& inInputState)
 {
+	mVelocity = Vector3::Zero;
 	//process our input....
 
 	//turning...
-	float newRotation = GetRotation() + inInputState.GetDesiredHorizontalDelta() * mMaxRotationSpeed * inDeltaTime;
-	SetRotation(newRotation);
-
+	//float newRotation = GetRotation() + inInputState.GetDesiredHorizontalDelta() * mMaxRotationSpeed * inDeltaTime;
+	//SetRotation(newRotation);
+	if (inInputState.GetDesiredVerticalDelta() == 0) 
+	{
+		mVelocity += Vector3(inInputState.GetDesiredHorizontalDelta(), 0, 0);
+	}
+	else 
+	{
+		mVelocity += Vector3(inInputState.GetDesiredHorizontalDelta() * 0.7f, 0, 0);
+	}
+	
 	//moving...
-	float inputForwardDelta = inInputState.GetDesiredVerticalDelta();
-	mThrustDir = inputForwardDelta;
+	//float inputForwardDelta = inInputState.GetDesiredVerticalDelta();
+	//mThrustDir = inputForwardDelta;
+	if (inInputState.GetDesiredHorizontalDelta() == 0) 
+	{
+		mVelocity += Vector3(0, inInputState.GetDesiredVerticalDelta() * -1, 0);
+	}
+	else
+	{
+		mVelocity += Vector3(0, inInputState.GetDesiredVerticalDelta() * -0.7f, 0);
+	}
+	
+
+	if (mVelocity.mX != 0 || mVelocity.mY != 0) 
+	{
+		mThrustDir = 1;
+	}
+	else 
+	{
+		mThrustDir = 0;
+	}
 
 
 	mIsShooting = inInputState.IsShooting();
@@ -39,8 +66,8 @@ void RoboCat::AdjustVelocityByThrust(float inDeltaTime)
 {
 	//just set the velocity based on the thrust direction -- no thrust will lead to 0 velocity
 	//simulating acceleration makes the client prediction a bit more complex
-	Vector3 forwardVector = GetForwardVector();
-	mVelocity = forwardVector * (mThrustDir * inDeltaTime * mMaxLinearSpeed);
+	//Vector3 forwardVector = GetForwardVector();
+	mVelocity *= mThrustDir * inDeltaTime * mMaxLinearSpeed;
 }
 
 void RoboCat::SimulateMovement(float inDeltaTime)
