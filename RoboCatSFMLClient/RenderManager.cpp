@@ -67,10 +67,10 @@ void RenderManager::Render()
 	// Clear the back buffer
 	//
 	WindowManager::sInstance->clear(sf::Color(100, 149, 237, 255));
-
+	HUD::sInstance->Render();
 	RenderManager::sInstance->RenderComponents();
 
-	HUD::sInstance->Render();
+	
 
 	//
 	// Present our back buffer to our front buffer

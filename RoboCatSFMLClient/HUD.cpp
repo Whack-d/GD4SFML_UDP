@@ -11,6 +11,7 @@ HUD::HUD() :
 	mHealthOffset(1000, 10.f, 0.0f),
 	mHealth(0)
 {
+	backgroundT.loadFromFile("../Assets/map.png");
 }
 
 
@@ -21,6 +22,7 @@ void HUD::StaticInit()
 
 void HUD::Render()
 {
+	RenderImage();
 	RenderBandWidth();
 	RenderRoundTripTime();
 	RenderScoreBoard();
@@ -75,5 +77,13 @@ void HUD::RenderText(const string& inStr, const Vector3& origin, const Vector3& 
 	text.setPosition(origin.mX, origin.mY);
 	text.setFont(*FontManager::sInstance->GetFont("carlito"));
 	WindowManager::sInstance->draw(text);
+}
+
+void HUD::RenderImage() {
+	sf::Sprite background;
+	background.setTexture(backgroundT);
+	background.setOrigin(0, 0);
+	background.setScale(sf::Vector2f(1.5f, 1.5f));
+	WindowManager::sInstance->draw(background);
 }
 

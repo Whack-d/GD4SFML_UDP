@@ -50,7 +50,7 @@ void RoboCatServer::Update()
 	}
 
 
-	HandleShooting();
+	//HandleShooting();
 
 	if (!RoboMath::Is2DVectorEqual(oldLocation, GetLocation()) ||
 		!RoboMath::Is2DVectorEqual(oldVelocity, GetVelocity()) ||
