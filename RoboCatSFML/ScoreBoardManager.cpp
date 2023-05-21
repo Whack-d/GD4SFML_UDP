@@ -22,16 +22,21 @@ ScoreBoardManager::Entry::Entry(uint32_t inPlayerId, const string& inPlayerName,
 	mColor(inColor)
 {
 	SetScore(0);
+	SetTime(99.f);
 }
 
 void ScoreBoardManager::Entry::SetScore(int32_t inScore)
 {
 	mScore = inScore;
-
 	char	buffer[256];
 	snprintf(buffer, 256, "%s %i", mPlayerName.c_str(), mScore);
 	mFormattedNameScore = string(buffer);
 
+}
+
+void ScoreBoardManager::Entry::SetTime(float inTime) 
+{
+	mTime = inTime;
 }
 
 
@@ -121,6 +126,7 @@ bool ScoreBoardManager::Entry::Write(OutputMemoryBitStream& inOutputStream) cons
 	inOutputStream.Write(mPlayerId);
 	inOutputStream.Write(mPlayerName);
 	inOutputStream.Write(mScore);
+	inOutputStream.Write(mTime);
 
 	return didSucceed;
 }
@@ -141,6 +147,12 @@ bool ScoreBoardManager::Entry::Read(InputMemoryBitStream& inInputStream)
 		SetScore(score);
 	}
 
+	float time;
+	inInputStream.Read(time);
+	if (didSucceed)
+	{
+		SetTime(time);
+	}
 
 	return didSucceed;
 }

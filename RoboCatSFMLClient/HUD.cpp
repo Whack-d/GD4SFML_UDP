@@ -31,11 +31,7 @@ void HUD::Render()
 
 void HUD::RenderHealth()
 {
-	if (mHealth > 0)
-	{
-		string healthString = StringUtils::Sprintf("Health %d", mHealth);
-		RenderText(healthString, mHealthOffset, Colors::Red);
-	}
+	return;
 }
 
 void HUD::RenderBandWidth()
@@ -64,8 +60,10 @@ void HUD::RenderScoreBoard()
 		RenderText(entry.GetFormattedNameScore(), offset, entry.GetColor());
 		offset.mX += mScoreOffset.mX;
 		offset.mY += mScoreOffset.mY;
-	}
 
+		string timeString = StringUtils::Sprintf("Time: %d", entry.GetTime());
+		RenderText(timeString, mHealthOffset, Colors::Red);
+	}
 }
 
 void HUD::RenderText(const string& inStr, const Vector3& origin, const Vector3& inColor)

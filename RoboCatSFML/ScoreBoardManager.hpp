@@ -17,8 +17,10 @@ public:
 		const string& GetPlayerName()	const { return mPlayerName; }
 		const string& GetFormattedNameScore()	const { return mFormattedNameScore; }
 		int				GetScore()		const { return mScore; }
+		float			GetTime()		const { return mTime; }
 
 		void			SetScore(int inScore);
+		void			SetTime(float inTime);
 
 		bool			Write(OutputMemoryBitStream& inOutputStream) const;
 		bool			Read(InputMemoryBitStream& inInputStream);
@@ -30,7 +32,7 @@ public:
 		string			mPlayerName;
 
 		int				mScore;
-
+		float			mTime;
 		string			mFormattedNameScore;
 	};
 
