@@ -67,7 +67,7 @@ void RoboCat::AdjustVelocityByThrust(float inDeltaTime)
 	//just set the velocity based on the thrust direction -- no thrust will lead to 0 velocity
 	//simulating acceleration makes the client prediction a bit more complex
 	//Vector3 forwardVector = GetForwardVector();
-	mVelocity *= mThrustDir * inDeltaTime * mMaxLinearSpeed;
+	mVelocity *= mThrustDir * inDeltaTime;
 }
 
 void RoboCat::SimulateMovement(float inDeltaTime)
@@ -75,7 +75,7 @@ void RoboCat::SimulateMovement(float inDeltaTime)
 	//simulate us...
 	AdjustVelocityByThrust(inDeltaTime);
 	
-	SetLocation(GetLocation() + mVelocity * inDeltaTime);
+	SetLocation(GetLocation() + (mVelocity * inDeltaTime * mMaxLinearSpeed));
 
 	ProcessCollisions();
 }
@@ -222,8 +222,8 @@ uint32_t RoboCat::Write(OutputMemoryBitStream& inOutputStream, uint32_t inDirtyS
 		inOutputStream.Write((bool)true);
 
 		Vector3 velocity = mVelocity;
-		inOutputStream.Write(velocity.mX);
-		inOutputStream.Write(velocity.mY);
+		inOutputStream.Write(velocity.mX / 10000.f);
+		inOutputStream.Write(velocity.mY / 10000.f);
 
 		Vector3 location = GetLocation();
 		inOutputStream.Write(location.mX);
