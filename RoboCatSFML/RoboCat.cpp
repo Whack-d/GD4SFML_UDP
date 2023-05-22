@@ -222,8 +222,8 @@ uint32_t RoboCat::Write(OutputMemoryBitStream& inOutputStream, uint32_t inDirtyS
 		inOutputStream.Write((bool)true);
 
 		Vector3 velocity = mVelocity;
-		inOutputStream.Write(velocity.mX / 10000.f);
-		inOutputStream.Write(velocity.mY / 10000.f);
+		inOutputStream.Write(velocity.mX);
+		inOutputStream.Write(velocity.mY);
 
 		Vector3 location = GetLocation();
 		inOutputStream.Write(location.mX);
